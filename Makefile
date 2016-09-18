@@ -165,7 +165,7 @@ EXTRA_CFLAGS += -DCONFIG_RTW_SDIO_PM_KEEP_POWER
 endif
 
 ifeq ($(CONFIG_PLATFORM_I386_PC), y)
-SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
+SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ | sed -e s/armv7l/arm/)
 ARCH ?= $(SUBARCH)
 CROSS_COMPILE ?=
 KVER  := $(shell uname -r)
@@ -220,6 +220,7 @@ strip:
 
 install:
 	install -p -m 644 $(MODULE_NAME).ko  $(MODDESTDIR)
+	@mkdir -p /lib/firmware/rtlwifi/
 	@cp -n rtl8723bs_nic.bin /lib/firmware/rtlwifi/rtl8723bs_nic.bin
 	@cp -n rtl8723bs_wowlan.bin /lib/firmware/rtlwifi/rtl8723bs_wowlan.bin
 	/sbin/depmod -a ${KVER}
@@ -243,7 +244,7 @@ cppcheck.log:
 clean:
 	@rm -fr hal/*/*.mod.c hal/*/*.mod hal/*/*.o hal/*/.*.cmd hal/*/*.ko \
 		hal/*.mod.c hal/*.mod hal/*.o hal/.*.cmd hal/*.ko \
-		core/*.mod.c core/*.mod *.o core/.*.cmd core/*.ko \
+		core/*.mod.c core/*.mod core/*.o core/.*.cmd core/*.ko \
 		os_dep/*.mod.c os_dep/*.mod os_dep/*.o os_dep/.*.cmd *.ko \
 		platform/*.mod.c platform/*.mod platform/*.o platform/.*.cmd platform/*.ko \
 		Module.symvers Module.markers modules.order *.mod.c *.mod *.o .*.cmd *.ko *~ .tmp_versions \
