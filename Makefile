@@ -169,7 +169,9 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ | sed -e s/armv7l/arm/)
 ARCH ?= $(SUBARCH)
 CROSS_COMPILE ?=
 KVER  := $(shell uname -r)
-KSRC := /lib/modules/$(KVER)/build
+# KSRC := /lib/modules/$(KVER)/build
+# Hack for build
+KSRC  ?=
 MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/
 INSTALL_PREFIX :=
 endif
